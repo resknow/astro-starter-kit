@@ -3,6 +3,7 @@ import { twMerge as tw } from 'tailwind-merge';
 import Container from '@components/Container.astro';
 
 interface Props {
+	as?: string;
 	class?: string;
 	innerClass?: string;
 	backgroundImage?: string;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const {
+	as = 'section',
 	class: className,
 	innerClass: innerClassName,
 	backgroundImage,
@@ -21,10 +23,12 @@ const {
 	collapseBottom,
 	collapseTop,
 } = Astro.props;
-const TagName = contain ? Container : 'div';
+
+const TagName = as;
+const InnerTagName = contain ? Container : 'div';
 ---
 
-<article
+<TagName
 	class:list={tw(backgroundImage && 'bg-cover bg-center', className)}
 	style={backgroundImage && `background-image: url('${backgroundImage}')`}
 >
@@ -39,8 +43,8 @@ const TagName = contain ? Container : 'div';
 			innerClassName,
 		])}
 	>
-		<TagName>
+		<InnerTagName>
 			<slot />
-		</TagName>
+		</InnerTagName>
 	</div>
-</article>
+</TagName>
