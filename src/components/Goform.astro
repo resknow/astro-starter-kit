@@ -1,0 +1,35 @@
+---
+import Button from '@components/Button.astro';
+import Flow from '@components/Flow.astro';
+import Icon from '@components/Icon.astro';
+
+interface Props {
+	id: string;
+	withRecaptcha?: boolean;
+	withSubmitButton?: boolean;
+}
+
+const { id, withRecaptcha = false, withSubmitButton = false } = Astro.props;
+---
+
+<Flow as="form" goform action={`https://goform.app/s/${id}`} method="post">
+	<slot />
+	{
+		withSubmitButton && (
+			<Flow space="xs">
+				<Button type="submit">
+					Send
+					<Icon class="fill-current w-5 h-5" name="send" slot="end" />
+				</Button>
+			</Flow>
+		)
+	}
+	<slot name="end" />
+</Flow>
+
+<script src="https://goform.app/validate.js" is:inline></script>
+{
+	withRecaptcha && (
+		<script src={`https://goform.app/recaptcha/${id}`} is:inline />
+	)
+}

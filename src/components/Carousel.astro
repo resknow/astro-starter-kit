@@ -1,0 +1,107 @@
+---
+import '@src/scripts/scooch/scooch.css';
+import Icon from './Icon.astro';
+
+interface Props {
+	withArrows?: boolean;
+	withDots?: boolean;
+	id?: string;
+	options?: {
+		autoplay?: boolean;
+		autoplayInterval?: number;
+		keyboardControls?: boolean;
+		allowFullscreen?: boolean;
+		scrollToChange?: boolean;
+		swipeToChange?: boolean;
+	};
+	class?: string;
+}
+
+const {
+	withArrows = false,
+	withDots = false,
+	id,
+	options: defaultOptions,
+	class: className,
+} = Astro.props;
+const options = {
+	autoplay: true,
+	scrollToChange: false,
+	swipeToChange: false,
+	keyboardControls: false,
+	...defaultOptions,
+};
+
+const carouselId = id || `carousel-${Math.floor(Math.random() * Date.now())}`;
+---
+
+<div id={carouselId} class:list={['carousel relative', className]}>
+	<div class="scooch">
+		<slot />
+	</div>
+	{
+		withArrows && (
+			<div data-arrows class="carousel__arrows">
+				<div class="absolute top-0 left-0 z-10 h-full flex items-center px-4">
+					<button data-next>
+						<Icon name="caret-left" class="w-6 h-6" />
+						<span class="sr-only">Previous Slide</span>
+					</button>
+				</div>
+				<div class="absolute top-0 right-0 z-10 h-full flex items-center px-4">
+					<button data-prev>
+						<Icon name="caret-right" class="w-6 h-6" />
+						<span class="sr-only">Next Slide</span>
+					</button>
+				</div>
+			</div>
+		)
+	}
+	{
+		withDots && (
+			<div
+				data-dots
+				class="carousel__dots absolute bottom-6 left-0 w-full flex items-center justify-center gap-2"
+			/>
+		)
+	}
+</div>
+
+<script src="/src/scripts/scooch/scooch.js" is:inline></script>
+<script define:vars={{ id: carouselId, options, withArrows, withDots }}>
+	document.addEventListener('DOMContentLoaded', () => {
+		let root = document.getElementById(id);
+		let scooch = new Scooch(root, options);
+
+		if (withArrows) {
+			let prev = root.querySelector('[data-prev]');
+			let next = root.querySelector('[data-next]');
+
+			prev.addEventListener('click', () => scooch.previous());
+			next.addEventListener('click', () => scooch.next());
+		}
+
+		if (withDots) {
+			let dotsContainer = root.querySelector('[data-dots]');
+			let slideCount = scooch.slides.length;
+
+			for (let i = 0; i < slideCount; i++) {
+				let dot = document.createElement('button');
+				dot.setAttribute('type', 'button');
+				dot.setAttribute('data-slide', i);
+				dot.classList.add(
+					'carousel__dot',
+					'w-2',
+					'h-2',
+					'rounded-full',
+					'bg-gray-400'
+				);
+				dot.innerHTML = `<span class="sr-only">Go to slide ${
+					i + 1
+				}</span>`;
+				dot.addEventListener('click', () => scooch.goToSlide(i));
+				dotsContainer.appendChild(dot);
+			}
+		}
+	});
+</script>

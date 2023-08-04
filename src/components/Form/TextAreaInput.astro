@@ -1,0 +1,37 @@
+---
+interface Props {
+	id?: string;
+	name?: string;
+	label?: string;
+	description?: string;
+	placeholder?: string;
+	rows?: number;
+	optional?: boolean;
+}
+
+const {
+	id,
+	name,
+	label,
+	description,
+	placeholder,
+	rows = 4,
+	optional,
+} = Astro.props;
+const labelFor = id || name;
+const inputId = id || name;
+---
+
+<div class="flow flow-space-2">
+	<label for={labelFor}>
+		{label}
+		{
+			optional && (
+				<span class="text-gray-500 uppercase text-xs"> optional</span>
+			)
+		}
+	</label>
+	<textarea id={inputId} name={name} placeholder={placeholder} rows={rows}
+	></textarea>
+	{description && <p class="text-sm text-gray-600">{description}</p>}
+</div>

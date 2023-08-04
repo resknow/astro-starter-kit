@@ -1,0 +1,43 @@
+---
+import Base from '@layouts/Base.astro';
+import Container from '@components/Container.astro';
+import Flow from '@components/Flow.astro';
+import Section from '@components/Section.astro';
+
+export async function getStaticPaths() {
+	const projectsRaw = await fetch(
+		`https://cms.resknow.net/examples/wp-json/wp/v2/projects?per_page=100&_fields=slug`
+	);
+	const projects = await projectsRaw.json();
+
+	const paths = projects.map((project) => {
+		return { params: { slug: project.slug } };
+	});
+
+	return [paths];
+}
+
+const { slug } = Astro.params;
+
+const projectRaw = await fetch(
+	`https://cms.resknow.net/examples/wp-json/wp/v2/projects?slug=${slug}`
+);
+let project = await projectRaw.json();
+project = project[0];
+---
+
+<Base title={project.title.rendered}>
+	<Container>
+		<Section>
+			<Flow space="5" class="mx-auto max-w-2xl">
+				<h1>{project.title.rendered}</h1>
+				<img
+					class="block aspect-video object-cover object-center"
+					src={project.better_featured_image.source_url}
+					alt={project.title.rendered}
+				/>
+				<div set:html={project.content.rendered} />
+			</Flow>
+		</Section>
+	</Container>
+</Base>

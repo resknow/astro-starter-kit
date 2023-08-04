@@ -1,0 +1,91 @@
+---
+import site from '@src/site.js';
+
+interface Props {
+	name?: string;
+	showPhoneNumber?: boolean;
+}
+
+const { name = 'main', showPhoneNumber = false } = Astro.props;
+const menu = site.menus[name];
+---
+
+<div x-data="{ isOpen: false }" class="md:hidden">
+	<button
+		@click="isOpen = !isOpen"
+		:data-state="isOpen ? 'open' : 'closed'"
+		class="hamburger"
+	>
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+
+	<nav
+		class="bg-white shadow-2xl flex flex-col fixed left-0 top-0 h-screen w-64 z-100 py-10 transform -translate-x-80 transition-transform duration-500 will-change-transform"
+		:class="{ 'translate-x-0': isOpen, '-translate-x-80': !isOpen }"
+	>
+		<ul class="text-lg">
+			{
+				menu.map((link, key) => {
+					return (
+						<li>
+							<a
+								class="block text-gray-700 font-bold py-4 px-8 no-underline"
+								href={link.href}
+							>
+								{link.label}
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
+
+		{
+			showPhoneNumber && (
+				<div class="mt-auto py-4 px-8">
+					<p class="uppercase text-gray-600 tracking-wide text-sm">
+						Call Us
+					</p>
+					<a
+						class="text-xl font-bold tracking-tight no-underline"
+						href={`tel:${site.phone}`}
+					>
+						{site.phone}
+					</a>
+				</div>
+			)
+		}
+	</nav>
+</div>
+
+<style>
+	.hamburger {
+		position: relative;
+		z-index: 9;
+	}
+
+	.hamburger .bar {
+		width: 35px;
+		height: 3px;
+		background-color: currentColor;
+		margin: 6px 0;
+		transition: 0.4s;
+		display: block;
+	}
+
+	.hamburger[data-state='open'] .bar:nth-child(1) {
+		-webkit-transform: rotate(-45deg) translate(-4px, 6px);
+		transform: rotate(-45deg) translate(-4px, 6px);
+	}
+
+	.hamburger[data-state='open'] .bar:nth-child(2) {
+		opacity: 0;
+	}
+
+	.hamburger[data-state='open'] .bar:nth-child(3) {
+		-webkit-transform: rotate(45deg) translate(-8px, -8px);
+		transform: rotate(45deg) translate(-8px, -8px);
+	}
+</style>

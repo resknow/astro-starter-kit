@@ -1,0 +1,27 @@
+---
+import Section from '@components/Section.astro';
+import Tag from '@components/Tag.astro';
+
+interface Props {
+	tag?: string;
+	title: string;
+	description: string;
+}
+
+const { tag, title, description } = Astro.props;
+---
+
+<Section>
+	<div class="flow flow-space-3 text-center max-w-2xl mx-auto">
+		{tag && <Tag text={tag} />}
+		<h1
+			class="text-5xl font-extrabold text-transparent bg-gradient-to-br from-pink-500 to-yellow-500 bg-clip-text"
+		>
+			{title}
+		</h1>
+		<p class="text-xl text-balance">
+			{description}
+		</p>
+		<slot />
+	</div>
+</Section>

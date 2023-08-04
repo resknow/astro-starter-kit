@@ -1,0 +1,22 @@
+---
+import site from '@src/site.js';
+import util from '@src/util.js';
+
+import Container from '@components/Container.astro';
+import Flow from '@components/Flow.astro';
+---
+
+<Container as="footer" class="flow text-center py-6 text-gray-700 text-sm">
+	<Flow space="sm">
+		<p>
+			{site.name} &copy; {util.currentYear}.
+		</p>
+		<p><a href="/privacy-policy">Privacy Policy</a></p>
+	</Flow>
+</Container>
+
+<style>
+	footer {
+		view-transition-name: page-footer;
+	}
+</style>

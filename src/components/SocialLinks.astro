@@ -1,0 +1,94 @@
+---
+import { twMerge as tw } from 'tailwind-merge';
+import site from '@src/site.js';
+import Icon from '@components/Icon.astro';
+
+interface Props {
+	class?: string;
+	variant?: 'default' | 'round' | 'circle';
+	except?: string[];
+	only?: string[];
+}
+
+const { class: className, variant = 'default', except, only } = Astro.props;
+
+let socialLinks = Object.entries(site.social) || [];
+
+// Remove links we don't want
+if (except) {
+	socialLinks = socialLinks.filter(([name, url]) => !except.includes(name));
+}
+
+// Only include links we want
+if (only) {
+	socialLinks = socialLinks.filter(([name, url]) => only.includes(name));
+}
+
+// Colours
+const colors = {
+	facebook: {
+		default: 'text-facebook',
+		round: 'bg-facebook text-white hover:text-white',
+		circle: 'bg-facebook text-white hover:text-white',
+	},
+	twitter: {
+		default: 'text-twitter',
+		round: 'bg-twitter text-white hover:text-white',
+		circle: 'bg-twitter text-white hover:text-white',
+	},
+	instagram: {
+		default: 'text-instagram',
+		round: 'bg-instagram text-white hover:text-white',
+		circle: 'bg-instagram text-white hover:text-white',
+	},
+	linkedin: {
+		default: 'text-linkedin',
+		round: 'bg-linkedin text-white hover:text-white',
+		circle: 'bg-linkedin text-white hover:text-white',
+	},
+	youtube: {
+		default: 'text-youtube',
+		round: 'bg-youtube text-white hover:text-white',
+		circle: 'bg-youtube text-white hover:text-white',
+	},
+	tiktok: {
+		default: 'text-tiktok',
+		round: 'bg-tiktok text-white hover:text-white',
+		circle: 'bg-tiktok text-white hover:text-white',
+	},
+	pinterest: {
+		default: 'text-pinterest',
+		round: 'bg-pinterest text-white hover:text-white',
+		circle: 'bg-pinterest text-white hover:text-white',
+	},
+};
+
+// Style
+const variants = {
+	default: '',
+	round: 'rounded-lg',
+	circle: 'rounded-full',
+};
+---
+
+<ul class={tw('flex flex-wrap items-center gap-3', className)}>
+	{
+		socialLinks.map(([name, url]) => {
+			return (
+				<li>
+					<a
+						class={tw(
+							'inline-flex items-center justify-center leading-none w-10 h-10 transition transform duration-500 hover:scale-105',
+							colors[name][variant],
+							variants[variant]
+						)}
+						href={url}
+					>
+						<Icon name={name} class="text-lg fill-current" />
+						<span class="sr-only">{name}</span>
+					</a>
+				</li>
+			);
+		})
+	}
+</ul>

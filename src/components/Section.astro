@@ -1,0 +1,46 @@
+---
+import { twMerge as tw } from 'tailwind-merge';
+import Container from '@components/Container.astro';
+
+interface Props {
+	class?: string;
+	innerClass?: string;
+	backgroundImage?: string;
+	contain?: boolean;
+	collapse?: boolean;
+	collapseBottom?: boolean;
+	collapseTop?: boolean;
+}
+
+const {
+	class: className,
+	innerClass: innerClassName,
+	backgroundImage,
+	contain = true,
+	collapse,
+	collapseBottom,
+	collapseTop,
+} = Astro.props;
+const TagName = contain ? Container : 'div';
+---
+
+<article
+	class:list={tw(backgroundImage && 'bg-cover bg-center', className)}
+	style={backgroundImage && `background-image: url('${backgroundImage}')`}
+>
+	<div
+		class={tw([
+			!collapse &&
+				!collapseBottom &&
+				!collapseTop &&
+				'py-12 sm:py-20 md:py-24 lg:py-32',
+			collapseBottom && 'pt-12 sm:pt-20 md:pt-24 lg:pt-32',
+			collapseTop && 'pb-12 sm:pb-20 md:pb-24 lg:pb-32',
+			innerClassName,
+		])}
+	>
+		<TagName>
+			<slot />
+		</TagName>
+	</div>
+</article>

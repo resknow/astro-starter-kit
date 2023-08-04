@@ -1,0 +1,48 @@
+---
+import { twMerge as tw } from 'tailwind-merge';
+
+interface Props {
+	class?: string;
+	href?: string;
+	type?: 'button' | 'submit' | 'reset';
+	variant?: 'primary' | 'secondary' | 'text';
+	size?: 'sm' | 'md' | 'lg';
+}
+
+const {
+	class: className,
+	href,
+	type = null,
+	variant = 'primary',
+	size = 'md',
+} = Astro.props;
+const TagName = type ? 'button' : 'a';
+const buttonClasses =
+	'border inline-flex items-center justify-center gap-2 font-medium text-center rounded-lg shadow-sm cursor-pointer tracking-wide no-underline transition transform hover:shadow-md hover:-translate-y-px active:shadow-none active:translate-y-px focus:ring focus:ring-offset-2 focus:outline-none';
+
+const variants = {
+	primary:
+		'text-indigo-100 bg-indigo-600 border-indigo-600 hover:bg-indigo-700 focus:ring-indigo-200 hover:text-white',
+	secondary:
+		'text-black bg-white border-gray-200 hover:border-indigo-200 hover:text-black focus:ring-indigo-500',
+	text: 'text-indigo-600 bg-transparent border-transparent shadow-none hover:shadow-none hover:underline focus:ring-indigo-500',
+};
+
+const sizes = {
+	sm: 'px-4 py-2 text-sm',
+	md: 'px-6 py-2.5 text-base',
+	lg: 'px-8 py-3 text-lg',
+};
+---
+
+<TagName
+	href={href}
+	class={tw(buttonClasses, variants[variant], sizes[size], className)}
+	type={type}
+>
+	<slot name="start" />
+	<span class="relative">
+		<slot />
+	</span>
+	<slot name="end" />
+</TagName>

@@ -1,0 +1,28 @@
+---
+import site from '@src/site.js';
+import MenuLink from '@components/MenuLink.astro';
+
+interface Props {
+	name?: string;
+}
+
+const { name = 'main' } = Astro.props;
+const menu = site.menus[name];
+---
+
+<nav class="hidden md:block">
+	<ul class="flex gap-6">
+		{
+			menu.map((link, key) => {
+				return (
+					<MenuLink
+						key={key}
+						url={link.href}
+						label={link.label}
+						children={link?.children}
+					/>
+				);
+			})
+		}
+	</ul>
+</nav>

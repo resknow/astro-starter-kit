@@ -1,0 +1,48 @@
+---
+interface Props {
+	as?: string;
+	class?: string;
+	name?: string;
+	images?: {
+		src: string;
+		alt?: string;
+	}[];
+	imageClass?: string;
+	loading?: 'lazy' | 'eager';
+}
+
+const {
+	as = 'div',
+	class: className,
+	name = 'lightbox',
+	images = [],
+	imageClass: imageClassName,
+	loading = 'lazy',
+} = Astro.props;
+const TagName = as;
+---
+
+<TagName class:list={['lightbox', className]}>
+	{
+		images.map((image) => {
+			return (
+				<a
+					data-fslightbox={name}
+					data-type="image"
+					href={image.src}
+					class={imageClassName}
+				>
+					<img
+						src={image.src}
+						alt={image?.alt || ''}
+						loading={loading}
+					/>
+				</a>
+			);
+		})
+	}
+</TagName>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"
+></script>

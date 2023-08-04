@@ -1,0 +1,63 @@
+---
+import Icon from '@components/Icon.astro';
+
+interface Props {
+	class?: string;
+	children?: Array<{
+		href: string;
+		label: string;
+	}>;
+	key: number;
+	url: string;
+	label: string;
+}
+
+const { class: className, children = null, key, url, label } = Astro.props;
+const linkClass =
+	'flex items-center gap-2 text-sm text-gray-500 font-bold no-underline uppercase hover:text-gray-900';
+---
+
+{
+	children ? (
+		<li class="group relative" style={`z-index: ${key}`}>
+			<a class:list={[linkClass, className]} href={url}>
+				{label}
+				{children && <Icon name="caret-down" class="w-4 h-4" />}
+			</a>
+
+			<ul class="menu-dropdown hidden absolute top-8 -left-2 bg-white border rounded px-6 py-4 shadow-xl min-w-max w-48 flow flow-space-2 group-hover:block">
+				{children.map((child) => {
+					return (
+						<li>
+							<a
+								class="text-sm font-bold text-gray-900 no-underline"
+								href={child.href}
+							>
+								{child.label}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</li>
+	) : (
+		<li class="relative">
+			<a class:list={[linkClass, className]} href={url}>
+				{label}
+			</a>
+		</li>
+	)
+}
+
+<style>
+	/* Fixes the jank when moving from the parent link to the dropdown */
+	.menu-dropdown:before {
+		content: '';
+		display: block;
+		height: 30px;
+		position: absolute;
+		top: -30px;
+		left: 0;
+		width: 100%;
+	}
+</style>

@@ -1,0 +1,84 @@
+---
+import '@styles/global.css';
+import site from '@src/site.js';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+interface Props {
+	title?: string;
+	canonical?: string;
+	description?: string;
+	class?: string;
+	withCompanyName?: boolean;
+}
+
+const {
+	title = 'New Page',
+	canonical = null,
+	description = null,
+	class: className,
+	withCompanyName = true,
+} = Astro.props;
+---
+
+<html lang={site.language || 'en'}>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="twitter:dnt" content="on" />
+		{
+			site?.enableViewTransitions && (
+				<meta name="view-transition" content="same-origin" />
+			)
+		}
+
+		<title>{title}{withCompanyName && ` | ${site.name}`}</title>
+		{description && <meta name="description" content={description} />}
+		{canonical && <link rel="canonical" href={canonical} />}
+
+		<style>
+			[x-cloak] {
+				display: none !important;
+			}
+		</style>
+
+		<slot name="head" />
+	</head>
+	<body class:list={className}>
+		<slot name="body-open" />
+		<Header />
+		<slot />
+		<Footer />
+		<slot name="body-close" />
+
+		{
+			site.cookieConsent.show && (
+				<cookie-consent-banner hidden class="shadow-lg">
+					<p>
+						{site.cookieConsent.text ||
+							'We use cookies to provide the best experience.'}
+					</p>
+				</cookie-consent-banner>
+			)
+		}
+	</body>
+</html>
+
+<script>
+	import Alpine from 'alpinejs';
+	window.Alpine = Alpine;
+	Alpine.start();
+</script>
+
+{
+	site.cookieConsent.show && (
+		<script
+			type="module"
+			src="https://unpkg.com/simple-cookie-consent-banner/cookie-consent-banner.js"
+			is:inline
+		/>
+	)
+}

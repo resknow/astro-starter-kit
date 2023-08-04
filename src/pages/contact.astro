@@ -1,0 +1,61 @@
+---
+import site from '@src/site.js';
+
+import Base from '@layouts/Base.astro';
+import Container from '@components/Container.astro';
+import Goform from '@components/Goform.astro';
+import Icon from '@components/Icon.astro';
+
+import TextInput from '@components/Form/TextInput.astro';
+import TextAreaInput from '@components/Form/TextAreaInput.astro';
+---
+
+<Base title="Contact Us">
+	<Container class="flow py-20">
+		<h1>Contact Us</h1>
+		<div class="grid gap-12 md:grid-cols-3">
+			<div class="md:col-span-2">
+				<Goform id="goform-id-here" withRecaptcha withSubmitButton>
+					<TextInput name="name" label="Name" />
+					<TextInput name="email" label="Email" type="email" />
+					<TextInput name="phone" label="Phone" type="tel" optional />
+					<TextAreaInput name="message" label="Message" />
+				</Goform>
+			</div>
+			<div class="flow flow-space-8">
+				<div class="flow flow-space-1">
+					<strong
+						class="flex gap-2 items-center font-heading text-gray-700 text-sm tracking-wide uppercase"
+					>
+						<Icon name="phone" class="text-lg" />
+						<span>Phone</span>
+					</strong>
+					<p class="font-bold">
+						<a
+							class="no-underline text-2xl"
+							href={`tel:${site.phone}`}>{site.phone}</a
+						>
+					</p>
+				</div>
+				<div class="flow flow-space-1">
+					<strong
+						class="flex gap-2 items-center font-heading text-gray-700 text-sm tracking-wide uppercase"
+					>
+						<Icon name="at" class="text-lg" />
+						<span>Email</span>
+					</strong>
+					<p>{site.email}</p>
+				</div>
+				<div class="flow flow-space-1">
+					<strong
+						class="flex gap-2 items-center font-heading text-gray-700 text-sm tracking-wide uppercase"
+					>
+						<Icon name="map-marker" class="text-lg" />
+						<span>Address</span>
+					</strong>
+					<p set:html={site.address.replaceAll(', ', '<br>')} />
+				</div>
+			</div>
+		</div>
+	</Container>
+</Base>

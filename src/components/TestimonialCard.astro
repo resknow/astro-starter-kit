@@ -1,0 +1,29 @@
+---
+import Icon from '@components/Icon.astro';
+
+interface Props {
+	content: string;
+	name: string;
+	showStars?: boolean;
+}
+
+const { content, name, showStars = false } = Astro.props;
+---
+
+<article
+	class="bg-white p-8 rounded-xl flow flow-space-4 w-full shadow-xl mb-6 break-inside-avoid"
+>
+	{
+		showStars && (
+			<div class="flex gap-1.5">
+				<Icon name="star" class="fill-current text-yellow-400" />
+				<Icon name="star" class="fill-current text-yellow-400" />
+				<Icon name="star" class="fill-current text-yellow-400" />
+				<Icon name="star" class="fill-current text-yellow-400" />
+				<Icon name="star" class="fill-current text-yellow-400" />
+			</div>
+		)
+	}
+	<p>{content}</p>
+	<p class="text-gray-600 font-bold">- {name}</p>
+</article>
