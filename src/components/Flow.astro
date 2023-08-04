@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 
 interface Props {
 	as?: string;
@@ -57,7 +57,7 @@ const spacing = {
 ---
 
 <TagName
-	class={tw(
+	class={merge(
 		direction === 'vertical' && 'flow',
 		direction === 'horizontal' && 'flex',
 		direction === 'horizontal' && wrap && 'flex-wrap',

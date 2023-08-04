@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 import Container from '@components/Container.astro';
 
 interface Props {
@@ -29,11 +29,11 @@ const InnerTagName = contain ? Container : 'div';
 ---
 
 <TagName
-	class:list={tw(backgroundImage && 'bg-cover bg-center', className)}
+	class:list={merge(backgroundImage && 'bg-cover bg-center', className)}
 	style={backgroundImage && `background-image: url('${backgroundImage}')`}
 >
 	<div
-		class={tw([
+		class={merge([
 			!collapse &&
 				!collapseBottom &&
 				!collapseTop &&

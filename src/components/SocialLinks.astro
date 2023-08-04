@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 import site from '@src/site.js';
 import Icon from '@components/Icon.astro';
 
@@ -71,13 +71,13 @@ const variants = {
 };
 ---
 
-<ul class={tw('flex flex-wrap items-center gap-3', className)}>
+<ul class={merge('flex flex-wrap items-center gap-3', className)}>
 	{
 		socialLinks.map(([name, url]) => {
 			return (
 				<li>
 					<a
-						class={tw(
+						class={merge(
 							'inline-flex items-center justify-center leading-none w-10 h-10 transition transform duration-500 hover:scale-105',
 							colors[name][variant],
 							variants[variant]

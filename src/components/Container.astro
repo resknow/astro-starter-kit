@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 
 interface Props {
 	as?: string;
@@ -10,6 +10,6 @@ const { as = 'div', class: className } = Astro.props;
 const TagName = as;
 ---
 
-<TagName class={tw('container', className)}>
+<TagName class={merge('container', className)}>
 	<slot />
 </TagName>

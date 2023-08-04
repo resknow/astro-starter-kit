@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 
 interface Props {
 	href?: string;
@@ -11,7 +11,10 @@ const { href = '/', class: className } = Astro.props;
 
 <a
 	href={href}
-	class={tw('no-underline flex items-center gap-2 text-gray-700', className)}
+	class={merge(
+		'no-underline flex items-center gap-2 text-gray-700',
+		className
+	)}
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"

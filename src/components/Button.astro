@@ -1,5 +1,5 @@
 ---
-import { twMerge as tw } from 'tailwind-merge';
+import { twMerge as merge } from 'tailwind-merge';
 
 interface Props {
 	class?: string;
@@ -37,7 +37,7 @@ const sizes = {
 
 <TagName
 	href={href}
-	class={tw(buttonClasses, variants[variant], sizes[size], className)}
+	class={merge(buttonClasses, variants[variant], sizes[size], className)}
 	type={type}
 >
 	<slot name="start" />
