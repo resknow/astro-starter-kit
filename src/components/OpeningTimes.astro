@@ -1,0 +1,46 @@
+---
+import site from '@src/site.js';
+import Flow from '@components/Flow.astro';
+
+const dayNames = {
+	mon: 'Monday',
+	tue: 'Tuesday',
+	wed: 'Wednesday',
+	thu: 'Thursday',
+	fri: 'Friday',
+	sat: 'Saturday',
+	sun: 'Sunday',
+};
+
+const days = Object.entries(site.openingTimes);
+---
+
+<div x-data="openingTimes">
+	<Flow as="ul" space="xs">
+		{
+			days.map(([day, time]) => (
+				<li
+					class="relative flex items-center justify-between after:block after:absolute after:bottom-1.5 after:left-0 after:w-full after:border after:border-dotted after:z-10"
+					x-bind:class={`{ 'font-bold': today === '${day}' }`}
+				>
+					<p class="bg-white pr-3 z-20">{dayNames[day]}</p>
+					<p class="bg-white pl-3 z-20">{time}</p>
+				</li>
+			))
+		}
+	</Flow>
+</div>
+
+<script define:vars={{ days }}>
+	window.openingTimes = function () {
+		return {
+			today: null,
+			days: days,
+			dayNames: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+			init: function () {
+				let today = new Date().getDay();
+				this.today = this.dayNames[today];
+			},
+		};
+	};
+</script>
