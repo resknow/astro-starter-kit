@@ -2,6 +2,12 @@
 import site from '@src/site.js';
 import Flow from '@components/Flow.astro';
 
+interface Props {
+	highlightToday?: boolean;
+}
+
+const { highlightToday = true } = Astro.props;
+
 const dayNames = {
 	mon: 'Monday',
 	tue: 'Tuesday',
