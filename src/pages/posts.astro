@@ -1,0 +1,23 @@
+---
+import Base from '@layouts/Base.astro';
+import Section from '@components/Section.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+
+const response = await fetch('https://cms.resknow.net/examples/wp-json/wp/v2/projects');
+const posts = await response.json();
+---
+<Base title="Posts">
+    <Section>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map(post => {
+                return (<ProjectCard
+                    id={post.id}
+                    image={post.better_featured_image.source_url}
+                    title={post.title.rendered}
+                    date={post.date}
+                    href={`/posts/${post.slug}`}
+                />);
+            })}
+        </div>
+    </Section>
+</Base>

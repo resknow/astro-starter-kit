@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 		return { params: { slug: project.slug } };
 	});
 
-	return [paths];
+	return paths;
 }
 
 const { slug } = Astro.params;
@@ -30,9 +30,10 @@ project = project[0];
 	<Container>
 		<Section>
 			<Flow space="5" class="mx-auto max-w-2xl">
-				<h1>{project.title.rendered}</h1>
+				<h1 transition:name={`post-title-${project.id}`}>{project.title.rendered}</h1>
 				<img
-					class="block aspect-video object-cover object-center"
+					transition:name={`post-image-${project.id}`}
+					class="block rounded-xl aspect-video object-cover object-center"
 					src={project.better_featured_image.source_url}
 					alt={project.title.rendered}
 				/>

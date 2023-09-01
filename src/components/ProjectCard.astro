@@ -1,11 +1,12 @@
 ---
-const { image, title, date, href } = Astro.props;
+const { id, image, title, date, href } = Astro.props;
 ---
 
 <article
 	class="group relative grid w-full aspect-video items-end overflow-hidden rounded-xl"
 >
 	<img
+		transition:name={`post-image-${id}`}
 		class="block object-cover object-center w-full aspect-video col-start-1 col-span-1 row-start-1 row-span-1 z-10 transition duration-500 group-hover:scale-105"
 		src={image}
 		alt=""
@@ -15,7 +16,7 @@ const { image, title, date, href } = Astro.props;
 	<div
 		class="bg-gradient-to-b from-black/0 to-black/70 px-8 pt-20 pb-6 col-start-1 col-span-1 row-start-1 row-span-1 z-20"
 	>
-		<h3>
+		<h3 transition:name={`post-title-${id}`}>
 			<a
 				class="text-white hover:text-white static before:block before:absolute before:inset-0"
 				href={href}
